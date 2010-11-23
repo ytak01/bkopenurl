@@ -1,0 +1,10 @@
+[bkpiinst.exe]
+verdion 0.1.2.0
+  [Files]セクションにパスつきのファイルを指定出来るように変更
+version 0.1.1.0
+  ReadMeを言語別に指定出来るように変更
+version 0.1.0.1
+  英文の修正
+  B2終了時の待ちの修正
+version 0.1.0.0
+  初版公開
