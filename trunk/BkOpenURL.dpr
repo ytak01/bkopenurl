@@ -219,31 +219,30 @@ begin
               end
               else if LPARAM = g_nIDExpOpenURL then
               begin
-              	 if Pos('<',buf) = 1 then
+                if (Pos('<',buf) = 1) and (Pos('>',buf) = length(buf)) then
                 begin
-                	buf := Copy(buf,2,Length(buf));
-                  if Pos('>',buf) = length(buf) then
-                  begin
-                  	buf := Copy(buf,1,Length(buf)-1);
-                  end;
+                  buf := Copy(buf,2,Length(buf));
+                  buf := Copy(buf,1,Length(buf)-1);
                 end;
                 if (AnsiPos('ÅÉ',buf) = 1) and (AnsiPos('ÅÑ',buf) = length(buf)-1) then
                 begin
                 	buf := Copy(buf,3,Length(buf));
                   buf := Copy(buf,1,Length(buf)-2);
                 end;
-                if Pos('"',buf) = 1 then
+                if (Pos('"',buf) = 1) and (Pos('"',buf) = length(buf)) then
                 begin
                 	buf := Copy(buf,2,Length(buf));
-                  if Pos('"',buf) = length(buf) then
-                  begin
-                  	buf := Copy(buf,1,Length(buf)-1);
-                  end;
+                  buf := Copy(buf,1,Length(buf)-1);
                 end;
                 if (AnsiPos('Åh',buf) = 1) and (AnsiPos('Åh',buf) = length(buf)-1) then
                 begin
                 	buf := Copy(buf,3,Length(buf));
                   buf := Copy(buf,1,Length(buf)-2);
+                end;
+                if (Pos('[',buf) = 1) and (Pos(']',buf) = length(buf)) then
+                begin
+                	buf := Copy(buf,2,Length(buf));
+                  buf := Copy(buf,1,Length(buf)-1);
                 end;
                 if (AnsiPos('Åu',buf) = 1) and (AnsiPos('Åv',buf) = length(buf)-1) then
                 begin

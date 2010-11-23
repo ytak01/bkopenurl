@@ -1,0 +1,14 @@
+[General]
+Name=B2 PlugIn - BkOpenURL
+
+UninstallKey=B2PlugIn_BkOpenURL
+
+Readme=BkOpenURL.txt
+
+[Files]
+0=BkOpenURL.dll
+1=BkOpenURL.txt
+
+[Delete]
+1=BkOpenURL.txt
+3=BkOpenURL.ini
