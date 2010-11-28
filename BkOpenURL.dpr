@@ -267,7 +267,7 @@ begin
                 buf:=SearchEngine1.Url+buf;
               end;
                 // デバッグ用
-                ShowMessage(buf);
+//                ShowMessage(buf);
               { 実行 }
               if ( BrowserPath <> '' ) and
                  ( ( LPARAM = g_nIDOpenURL ) or
