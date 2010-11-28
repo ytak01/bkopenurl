@@ -1,6 +1,6 @@
 %temp%\
 
-bkpiinst.exe BkAppendFileChecker
+bkpiinst.exe BkOpenURL
 
 ---------------------------------------------------------------------
 Becky! Internet Mail Version 2 用 汎用プラグインインストーラ
