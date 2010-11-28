@@ -6,11 +6,11 @@ Copyright (c) 2000 Ryota Ando <rando@ca2.so-net.ne.jp>  All rights reserved.
 
 NOTICE:
 You can freely use, modify, redistribute this source code unless you modify 
-this notice. This software is provided by the author and contributors 'AS IS' 
+this notice. This software is provided by the author and contributors 'AS IS'
 and any express or implied warranties are disclaimed.
 
 Note:
-  BeckyAPI.pas must be exist in either specified library folder (recommended) 
+  BeckyAPI.pas must be exist in either specified library folder (recommended)
   or the same folder as .dpr file.
 *)
 
@@ -27,7 +27,13 @@ uses
   ClipBoardPushPop;
 
 const
-  Ver = '1.000';
+  Ver = '1.001';
+
+type
+  TSearchEngine = record
+    Name:String;
+    Url:String;
+end;
 
 //const
 //  g_hInstance : Longint = 0;  // not used
@@ -40,12 +46,14 @@ var
   DataFolder:String;
   PlugInFolder:String;
   BrowserPath:String;
+  SearchEngine1:TSearchEngine;
 
   g_nIDOpenURL: UINT;
   g_nIDHttpOpenURL: UINT;
   g_nIDMailtoOpenURL: UINT;
   g_nIDFtpOpenURL: UINT;
   g_nIDExpOpenURL: UINT;
+  g_nIDSearchURL: UINT;
 
 {$R *.RES}
 
@@ -254,8 +262,12 @@ begin
                 	buf := '\\' + buf;
                 end;
               end;
+              if LPARAM = g_nIDSearchURL then
+              begin
+                buf:=SearchEngine1.Url+buf;
+              end;
                 // デバッグ用
-//                ShowMessage(buf);
+                ShowMessage(buf);
               { 実行 }
               if ( BrowserPath <> '' ) and
                  ( ( LPARAM = g_nIDOpenURL ) or
@@ -310,6 +322,8 @@ with AppIni do
 begin
   try
     BrowserPath:=ReadString('Browser','Path','');
+    SearchEngine1.Name:=ReadString('SearchEngine1','Name','Google');
+    SearchEngine1.Url:=ReadString('SearchEngin1','URL','http://www.google.co.jp/search?q=');
   finally
     AppIni.Free;
   end;
@@ -347,10 +361,14 @@ const
   // g_nIDExpOpenURL
   MENU5_STRING            = 'Explorer で開く';
   MENU5_STATUSBAR_STRING  = '選択文字列を Explorer で開きます';
+  // g_nIDSearchURL
+  MENU6_STRING            = ' で検索する';
+  MENU6_STATUSBAR_STRING  = '選択文字列を検索します';
   BKC_PROPERTY            = $80A7;   { プロパティ   }
 var
   MenuPos: Integer;
   hSubMenu: HMENU;
+  buf: String;
 begin
   case nType of
 {   BKC_MENU_MAIN: ;      }
@@ -374,6 +392,12 @@ begin
       // URL
       g_nIDOpenURL := bka.RegisterCommand(MENU1_STATUSBAR_STRING, nType, @ProcOpenURL);
       AppendMenu(hSubMenu, MF_BYPOSITION or MF_STRING, g_nIDOpenURL, MENU1_STRING);
+      // SEPARATOR
+      AppendMenu(hSubMenu, MF_BYPOSITION or MF_SEPARATOR, 0, nil);
+      // Search
+      g_nIDSearchURL := bka.RegisterCommand(MENU6_STATUSBAR_STRING, nType, @ProcOpenURL);
+      buf:=SearchEngine1.Name+MENU6_STRING;
+      AppendMenu(hSubMenu, MF_BYPOSITION or MF_STRING, g_nIDSearchURL, PAnsiChar(buf));
       // SEPARATOR
       AppendMenu(hSubMenu, MF_BYPOSITION or MF_SEPARATOR, 0, nil);
       // http://
